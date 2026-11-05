@@ -1,0 +1,105 @@
+{
+  "$schema": "https://calm.finos.org/release/1.3/meta/core.json",
+  "nodes": [
+    {
+      "unique-id": "end-user",
+      "node-type": "actor",
+      "name": "End User",
+      "description": "External user accessing the application",
+      "controls": {
+        "Data Classification": {
+          "description": "Data classification for user interactions.",
+          "requirements": [
+            { "requirement-url": "security:controls:data-classification", "config": { "value": "Confidential" } }
+          ]
+        }
+      }
+    },
+    {
+      "unique-id": "api-gateway",
+      "node-type": "service",
+      "name": "API Gateway",
+      "description": "Edge gateway for routing and authentication",
+      "controls": {
+        "Data Classification": {
+          "description": "Highest data classification processed.",
+          "requirements": [
+            { "requirement-url": "security:controls:data-classification", "config": { "value": "Confidential" } }
+          ]
+        },
+        "Encryption in Transit": {
+          "description": "TLS enforcement for all gateway traffic.",
+          "requirements": [
+            { "requirement-url": "security:controls:encryption-in-transit", "config": { "value": true } }
+          ]
+        },
+        "Access Token TTL": {
+          "description": "Token lifetime in minutes.",
+          "requirements": [
+            { "requirement-url": "security:controls:access-token-ttl-minutes", "config": { "value": 30 } }
+          ]
+        }
+      }
+    },
+    {
+      "unique-id": "backend-service",
+      "node-type": "service",
+      "name": "Backend Service",
+      "description": "Core business logic service",
+      "controls": {
+        "Data Classification": {
+          "description": "Data classification for the service.",
+          "requirements": [
+            { "requirement-url": "security:controls:data-classification", "config": { "value": "Confidential" } }
+          ]
+        },
+        "Encryption in Transit": {
+          "description": "TLS enforcement.",
+          "requirements": [
+            { "requirement-url": "security:controls:encryption-in-transit", "config": { "value": true } }
+          ]
+        }
+      }
+    },
+    {
+      "unique-id": "primary-database",
+      "node-type": "database",
+      "name": "Primary Database",
+      "description": "Relational database for application state",
+      "controls": {
+        "Data Classification": {
+          "description": "Highest data classification stored.",
+          "requirements": [
+            { "requirement-url": "security:controls:data-classification", "config": { "value": "Confidential" } }
+          ]
+        },
+        "Encryption in Transit": {
+          "description": "TLS for database connections.",
+          "requirements": [
+            { "requirement-url": "security:controls:encryption-in-transit", "config": { "value": true } }
+          ]
+        }
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "user-to-gateway",
+      "relationship-type": { "connects": { "source": { "node": "end-user" }, "destination": { "node": "api-gateway" } } },
+      "protocol": "HTTPS",
+      "description": "User accesses the application"
+    },
+    {
+      "unique-id": "gateway-to-backend",
+      "relationship-type": { "connects": { "source": { "node": "api-gateway" }, "destination": { "node": "backend-service" } } },
+      "protocol": "HTTPS",
+      "description": "Gateway routes to backend"
+    },
+    {
+      "unique-id": "backend-to-database",
+      "relationship-type": { "connects": { "source": { "node": "backend-service" }, "destination": { "node": "primary-database" } } },
+      "protocol": "TLS",
+      "description": "Backend reads/writes data"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$id": "calm-demo:building-blocks:core:actor",
+  "nodes": [
+    {
+      "unique-id": "org:core-actor",
+      "node-type": "actor",
+      "name": "Actor",
+      "description": "A human or external entity that interacts with the system",
+      "controls": {
+        "Data Classification": {
+          "description": "Highest data classification the actor can access.",
+          "requirements": [
+            { "requirement-url": "security:controls:data-classification", "config": {} }
+          ]
+        }
+      },
+      "metadata": {}
+    }
+  ],
+  "relationships": [],
+  "$schema": "https://calm.finos.org/release/1.3/meta/core.json"
+}

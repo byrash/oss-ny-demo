@@ -1,0 +1,108 @@
+{
+  "$schema": "https://calm.finos.org/draft/2026-03/meta/calm.json",
+  "$id": "calm-demo:patterns:oauth-api-security-with-standards",
+  "unique-id": "oauth-api-security-with-standards-pattern",
+  "title": "OAuth API Security (with Standard Nodes)",
+  "description": "OAuth API security pattern using standard node references — controls are resolved automatically from standard node definitions.",
+  "category": "api-security",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "minItems": 5,
+      "prefixItems": [
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/node",
+          "properties": {
+            "unique-id": { "const": "web-client" },
+            "node-type": { "const": "webclient" },
+            "name": { "const": "Web Application" },
+            "definition-id": { "const": "OSS-NY-Demo:standards:webclient" }
+          }
+        },
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/node",
+          "properties": {
+            "unique-id": { "const": "api-gateway" },
+            "node-type": { "const": "service" },
+            "name": { "const": "API Gateway" },
+            "definition-id": { "const": "OSS-NY-Demo:standards:service" }
+          }
+        },
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/node",
+          "properties": {
+            "unique-id": { "const": "token-authority" },
+            "node-type": { "const": "service" },
+            "name": { "const": "Token Authority" },
+            "definition-id": { "const": "OSS-NY-Demo:standards:service" }
+          }
+        },
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/node",
+          "properties": {
+            "unique-id": { "const": "backend-api" },
+            "node-type": { "const": "service" },
+            "name": { "const": "Backend API" },
+            "definition-id": { "const": "OSS-NY-Demo:standards:service" }
+          }
+        },
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/node",
+          "properties": {
+            "unique-id": { "const": "database" },
+            "node-type": { "const": "database" },
+            "name": { "const": "Database" },
+            "definition-id": { "const": "OSS-NY-Demo:standards:database" }
+          }
+        }
+      ]
+    },
+    "relationships": {
+      "type": "array",
+      "minItems": 5,
+      "prefixItems": [
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/relationship",
+          "properties": {
+            "unique-id": { "const": "client-to-gateway" },
+            "relationship-type": { "const": { "connects": { "source": { "node": "web-client" }, "destination": { "node": "api-gateway" } } } },
+            "description": { "const": "HTTPS request" }
+          }
+        },
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/relationship",
+          "properties": {
+            "unique-id": { "const": "gateway-to-token-authority" },
+            "relationship-type": { "const": { "connects": { "source": { "node": "api-gateway" }, "destination": { "node": "token-authority" } } } },
+            "description": { "const": "Validate OAuth token" }
+          }
+        },
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/relationship",
+          "properties": {
+            "unique-id": { "const": "gateway-to-backend" },
+            "relationship-type": { "const": { "connects": { "source": { "node": "api-gateway" }, "destination": { "node": "backend-api" } } } },
+            "description": { "const": "Authorized request" }
+          }
+        },
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/relationship",
+          "properties": {
+            "unique-id": { "const": "client-to-token-authority" },
+            "relationship-type": { "const": { "connects": { "source": { "node": "web-client" }, "destination": { "node": "token-authority" } } } },
+            "description": { "const": "Obtain OAuth token" }
+          }
+        },
+        {
+          "$ref": "https://calm.finos.org/calm/schemas/2025-03/meta/core.json#/defs/relationship",
+          "properties": {
+            "unique-id": { "const": "backend-to-database" },
+            "relationship-type": { "const": { "connects": { "source": { "node": "backend-api" }, "destination": { "node": "database" } } } },
+            "description": { "const": "Read/write data" }
+          }
+        }
+      ]
+    }
+  },
+  "required": ["nodes", "relationships"]
+}

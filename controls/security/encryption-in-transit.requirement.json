@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "security:controls:encryption-in-transit",
+    "title": "Encryption in Transit",
+    "description": "Defines whether TLS/mTLS is enforced for data in transit.",
+    "type": "object",
+    "properties": {
+        "value": {
+            "type": "boolean",
+            "description": "Whether TLS/mTLS is enforced for data in transit"
+        }
+    },
+    "required": ["value"]
+}

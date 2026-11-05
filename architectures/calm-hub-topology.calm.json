@@ -1,0 +1,125 @@
+{
+  "$schema": "https://calm.finos.org/release/1.3/meta/core.json",
+  "nodes": [
+    {
+      "unique-id": "vs-code",
+      "node-type": "system",
+      "name": "VS Code",
+      "description": "Developer IDE hosting the CALM Canvas extension"
+    },
+    {
+      "unique-id": "calm-canvas",
+      "node-type": "service",
+      "name": "CALM Canvas",
+      "description": "VS Code extension for visual architecture authoring and governance"
+    },
+    {
+      "unique-id": "local-asset-repo",
+      "node-type": "system",
+      "name": "Local Asset Repo",
+      "description": "Git repository cloned locally containing CALM assets"
+    },
+    {
+      "unique-id": "architectures",
+      "node-type": "service",
+      "name": "architectures",
+      "description": "Architecture instance documents"
+    },
+    {
+      "unique-id": "controls",
+      "node-type": "service",
+      "name": "controls",
+      "description": "Governance control requirement schemas"
+    },
+    {
+      "unique-id": "patterns",
+      "node-type": "service",
+      "name": "patterns",
+      "description": "Reusable architecture patterns"
+    },
+    {
+      "unique-id": "standard-nodes",
+      "node-type": "service",
+      "name": "standard-nodes",
+      "description": "Governed building block definitions"
+    },
+    {
+      "unique-id": "calm-hub",
+      "node-type": "system",
+      "name": "CALM Hub",
+      "description": "Centralized API for browsing and publishing governed CALM assets"
+    },
+    {
+      "unique-id": "oidc-provider",
+      "node-type": "service",
+      "name": "OIDC Provider",
+      "description": "Identity provider handling authentication and namespace authorization"
+    },
+    {
+      "unique-id": "github-repo",
+      "node-type": "database",
+      "name": "GitHub Repo",
+      "description": "GitHub repository backing each CALM Hub namespace"
+    }
+  ],
+  "relationships": [
+    {
+      "unique-id": "vs-code-contains-canvas",
+      "relationship-type": {
+        "composed-of": {
+          "container": "vs-code",
+          "nodes": ["calm-canvas"]
+        }
+      }
+    },
+    {
+      "unique-id": "local-repo-contains-assets",
+      "relationship-type": {
+        "composed-of": {
+          "container": "local-asset-repo",
+          "nodes": ["architectures", "controls", "patterns", "standard-nodes"]
+        }
+      }
+    },
+    {
+      "unique-id": "hub-contains-components",
+      "relationship-type": {
+        "composed-of": {
+          "container": "calm-hub",
+          "nodes": ["oidc-provider", "github-repo"]
+        }
+      }
+    },
+    {
+      "unique-id": "canvas-to-local-repo",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "calm-canvas" },
+          "destination": { "node": "local-asset-repo" }
+        }
+      },
+      "description": "Local File Scan"
+    },
+    {
+      "unique-id": "canvas-to-hub",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "calm-canvas" },
+          "destination": { "node": "calm-hub" }
+        }
+      },
+      "protocol": "HTTPS",
+      "description": "OIDC + PKCE"
+    },
+    {
+      "unique-id": "oidc-to-github",
+      "relationship-type": {
+        "connects": {
+          "source": { "node": "oidc-provider" },
+          "destination": { "node": "github-repo" }
+        }
+      },
+      "description": "Authorize namespace access"
+    }
+  ]
+}

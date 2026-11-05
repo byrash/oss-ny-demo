@@ -1,0 +1,28 @@
+{
+  "$id": "calm-demo:building-blocks:core:service",
+  "nodes": [
+    {
+      "unique-id": "org:core-service",
+      "node-type": "service",
+      "name": "Service",
+      "description": "An independently deployable unit of functionality",
+      "controls": {
+        "Data Classification": {
+          "description": "Highest data classification processed by this service.",
+          "requirements": [
+            { "requirement-url": "security:controls:data-classification", "config": {} }
+          ]
+        },
+        "Encryption in Transit": {
+          "description": "TLS enforcement for this service.",
+          "requirements": [
+            { "requirement-url": "security:controls:encryption-in-transit", "config": {} }
+          ]
+        }
+      },
+      "metadata": {}
+    }
+  ],
+  "relationships": [],
+  "$schema": "https://calm.finos.org/release/1.3/meta/core.json"
+}

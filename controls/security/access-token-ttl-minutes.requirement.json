@@ -1,0 +1,16 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "security:controls:access-token-ttl-minutes",
+    "title": "Access Token TTL (Minutes)",
+    "description": "Lifetime of issued access tokens in minutes.",
+    "type": "object",
+    "properties": {
+        "value": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1440,
+            "description": "Access token time-to-live in minutes"
+        }
+    },
+    "required": ["value"]
+}

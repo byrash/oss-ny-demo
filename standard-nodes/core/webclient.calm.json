@@ -1,0 +1,22 @@
+{
+  "$id": "calm-demo:building-blocks:core:webclient",
+  "nodes": [
+    {
+      "unique-id": "org:core-webclient",
+      "node-type": "webclient",
+      "name": "Web Client",
+      "description": "A browser-based frontend client",
+      "controls": {
+        "Data Classification": {
+          "description": "Highest data classification displayed by the client.",
+          "requirements": [
+            { "requirement-url": "security:controls:data-classification", "config": {} }
+          ]
+        }
+      },
+      "metadata": {}
+    }
+  ],
+  "relationships": [],
+  "$schema": "https://calm.finos.org/release/1.3/meta/core.json"
+}

@@ -1,0 +1,20 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "security:controls:data-classification",
+    "title": "Data Classification",
+    "description": "Defines the highest data classification processed by the capability.",
+    "type": "object",
+    "properties": {
+        "value": {
+            "type": "string",
+            "enum": [
+                "Public",
+                "Internal",
+                "Confidential",
+                "Highly Confidential"
+            ],
+            "description": "Select the appropriate data classification"
+        }
+    },
+    "required": ["value"]
+}
